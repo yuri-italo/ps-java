@@ -5,10 +5,7 @@ import br.com.banco.dto.AccountView;
 import br.com.banco.entity.Account;
 import br.com.banco.service.impl.AccountService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -28,5 +25,11 @@ public class AccountResource {
         Account savedAccount = accountService.save(accountDto.toEntity());
         return ResponseEntity.created(URI.create(ACCOUNTS_BASE_PATH + "/" +  savedAccount.getId()))
                 .body(new AccountView(savedAccount));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<AccountView> findById(@PathVariable Integer id) {
+        Account account = accountService.findById(id);
+        return ResponseEntity.ok(new AccountView(account));
     }
 }
