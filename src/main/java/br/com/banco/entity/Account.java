@@ -19,10 +19,8 @@ public class Account {
     @Column(name = "nome_responsavel", length = 50)
     private String ownerName;
 
-    public Account(String ownerName, Integer id) {
+    public Account(String ownerName) {
         Objects.requireNonNull(ownerName,"Owner name is mandatory.");
-        Objects.requireNonNull(id, "ID is mandatory.");
-        this.id = id;
         this.ownerName = ownerName;
     }
 }
