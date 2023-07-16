@@ -1,6 +1,7 @@
 package br.com.banco.service.impl;
 
 import br.com.banco.entity.Account;
+import br.com.banco.exception.BusinessException;
 import br.com.banco.repository.AccountRepository;
 import br.com.banco.service.IAccountService;
 import org.springframework.context.MessageSource;
@@ -26,10 +27,14 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account findById(Integer id) {
-        return accountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        messageSource.getMessage("non-existing.id.error.message",null, Locale.getDefault())
-                ));
+        try {
+            return accountRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            messageSource.getMessage("non-existing.id.error.message",null, Locale.getDefault())
+                    ));
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException(e.getMessage(),e);
+        }
     }
 
     @Override
