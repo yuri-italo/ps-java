@@ -58,4 +58,10 @@ public class AccountResource {
         BeanUtils.copyProperties(source, target);
         return accountService.save(target);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        accountService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
