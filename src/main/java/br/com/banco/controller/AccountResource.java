@@ -4,6 +4,7 @@ import br.com.banco.dto.AccountDto;
 import br.com.banco.dto.AccountView;
 import br.com.banco.entity.Account;
 import br.com.banco.service.impl.AccountService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,17 @@ public class AccountResource {
 
     private List<AccountView> getAccountViews(List<Account> allAccounts) {
         return allAccounts.stream().map(AccountView::new).collect(Collectors.toList());
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<AccountView> update(@PathVariable Integer id, @RequestBody @Valid AccountDto accountDto) {
+        var account = accountService.findById(id);
+        var updatedAccount = getUpdatedAccount(accountDto, account);
+        return ResponseEntity.ok(new AccountView(updatedAccount));
+    }
+
+    private Account getUpdatedAccount(AccountDto source, Account target) {
+        BeanUtils.copyProperties(source, target);
+        return accountService.save(target);
     }
 }
