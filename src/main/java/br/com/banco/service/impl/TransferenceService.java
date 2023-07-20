@@ -1,6 +1,8 @@
 package br.com.banco.service.impl;
 
+import br.com.banco.entity.Account;
 import br.com.banco.entity.Transference;
+import br.com.banco.entity.Type;
 import br.com.banco.repository.TransferenceRepository;
 import br.com.banco.service.ITransferenceService;
 import org.springframework.context.MessageSource;
@@ -41,5 +43,32 @@ public class TransferenceService implements ITransferenceService {
     public void delete(Integer id) {
         Transference transference = this.findById(id);
         transferenceRepository.delete(transference);
+    }
+
+    @Override
+    public Transference realizeTransfer(Account account, Account destinationAccount, Double value) {
+        Transference transference = getOwnerTransference(account, destinationAccount, value);
+        Transference destinationTransference = getDestinationTransference(account, destinationAccount, value);
+
+        Transference savedTransference = this.save(transference);
+        this.save(destinationTransference);
+
+        return savedTransference;
+    }
+
+    private Transference getOwnerTransference(Account account, Account destinationAccount, Double value) {
+        return new Transference(
+                -value,
+                Type.TRANSFERENCE,
+                account,
+                destinationAccount.getOwnerName());
+    }
+
+    private Transference getDestinationTransference(Account account, Account destinationAccount, Double value) {
+        return new Transference(
+                value,
+                Type.TRANSFERENCE,
+                destinationAccount,
+                account.getOwnerName());
     }
 }

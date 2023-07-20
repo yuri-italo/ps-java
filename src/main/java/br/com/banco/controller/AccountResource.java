@@ -6,6 +6,7 @@ import br.com.banco.entity.Account;
 import br.com.banco.service.impl.AccountService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,20 +14,24 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static br.com.banco.controller.AccountResource.ACCOUNTS_BASE_PATH;
+
 @RestController
-@RequestMapping(AccountResource.ACCOUNTS_BASE_PATH)
+@RequestMapping(ACCOUNTS_BASE_PATH)
 public class AccountResource {
     public static final String ACCOUNTS_BASE_PATH = "/api/accounts";
+
     private final AccountService accountService;
 
     public AccountResource(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    @PostMapping
+    @Transactional
+    @PostMapping()
     public ResponseEntity<AccountView> save(@RequestBody @Valid AccountDto accountDto) {
         var savedAccount = accountService.save(accountDto.toEntity());
-        return ResponseEntity.created(URI.create(ACCOUNTS_BASE_PATH + "/" +  savedAccount.getId()))
+        return ResponseEntity.created(URI.create(ACCOUNTS_BASE_PATH + "/" + savedAccount.getId()))
                 .body(new AccountView(savedAccount));
     }
 
@@ -47,6 +52,7 @@ public class AccountResource {
         return allAccounts.stream().map(AccountView::new).collect(Collectors.toList());
     }
 
+    @Transactional
     @PutMapping("{id}")
     public ResponseEntity<AccountView> update(@PathVariable Integer id, @RequestBody @Valid AccountDto accountDto) {
         var account = accountService.findById(id);
@@ -59,6 +65,7 @@ public class AccountResource {
         return accountService.save(target);
     }
 
+    @Transactional
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         accountService.delete(id);

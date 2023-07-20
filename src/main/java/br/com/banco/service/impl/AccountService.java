@@ -58,4 +58,18 @@ public class AccountService implements IAccountService {
         Account account = this.findById(id);
         accountRepository.delete(account);
     }
+
+    @Override
+    public void checkEquals(Account account, Account destinationAccount) {
+        try {
+            if (account.getId().equals(destinationAccount.getId()))
+                throw new IllegalArgumentException(messageSource.getMessage(
+                        "same.account.id.message.error",
+                        null,
+                        Locale.getDefault()));
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+
+    }
 }

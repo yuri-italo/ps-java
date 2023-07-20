@@ -10,4 +10,5 @@ public interface IAccountService {
     List<Account> findAll();
     Account update(Account uppdatedAccount);
     void delete(Integer id);
+    void checkEquals(Account account, Account destinationAccount);
 }
