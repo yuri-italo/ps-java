@@ -13,7 +13,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@NoArgsConstructor
 @Table(name = "transferencia")
 public class Transference {
     @Id

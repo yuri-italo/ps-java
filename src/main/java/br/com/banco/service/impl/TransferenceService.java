@@ -1,11 +1,14 @@
 package br.com.banco.service.impl;
 
+import br.com.banco.dto.StatementFilter;
 import br.com.banco.entity.Account;
 import br.com.banco.entity.Transference;
+import br.com.banco.specifications.TransferenceSpecifications;
 import br.com.banco.entity.Type;
 import br.com.banco.repository.TransferenceRepository;
 import br.com.banco.service.ITransferenceService;
 import org.springframework.context.MessageSource;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +49,7 @@ public class TransferenceService implements ITransferenceService {
     }
 
     @Override
-    public Transference realizeTransfer(Account account, Account destinationAccount, Double value) {
+    public Transference transfer(Account account, Account destinationAccount, Double value) {
         Transference transference = getOwnerTransference(account, destinationAccount, value);
         Transference destinationTransference = getDestinationTransference(account, destinationAccount, value);
 
@@ -66,6 +69,41 @@ public class TransferenceService implements ITransferenceService {
     public Transference deposit(Account account, Double value) {
         Transference deposit = getDeposit(account, value);
         return this.save(deposit);
+    }
+
+    @Override
+    public List<Transference> getBankStatements(Account account, StatementFilter filter) {
+        Specification<Transference> spec = Specification.where(TransferenceSpecifications.withAccountId(account.getId()));
+
+        if (filter != null) {
+            if (filter.getInitDate() != null && filter.getEndDate() != null) {
+                spec = spec.and(TransferenceSpecifications.withInitDateAndEndDate(filter.getInitDate(), filter.getEndDate()));
+            }
+
+            if (filter.getTransactionOperator() != null) {
+                spec = spec.and(TransferenceSpecifications.withTransactionOperator(filter.getTransactionOperator()));
+            }
+        }
+
+        return transferenceRepository.findAll(spec);
+    }
+
+    private boolean allFiltersArePresent(StatementFilter statementFilter) {
+        return statementFilter != null
+                && statementFilter.getTransactionOperator() != null
+                && statementFilter.getInitDate() != null
+                && statementFilter.getEndDate() != null;
+    }
+
+    private boolean thereIsNoDate(StatementFilter filter) {
+        return (filter.getInitDate() == null || filter.getEndDate() == null)
+                && filter.getTransactionOperator() != null;
+    }
+
+    private boolean thereIsNoTransactionOperator(StatementFilter filter) {
+        return filter.getInitDate() != null
+                && filter.getEndDate() != null
+                && filter.getTransactionOperator() == null;
     }
 
     private Transference getDeposit(Account account, Double value) {
