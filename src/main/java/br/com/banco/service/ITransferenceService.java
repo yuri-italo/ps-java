@@ -12,4 +12,5 @@ public interface ITransferenceService {
     void delete(Integer id);
     Transference realizeTransfer(Account account, Account destinationAccountId, Double value);
     Transference withdraw(Account account, Double value);
+    Transference deposit(Account account, Double value);
 }

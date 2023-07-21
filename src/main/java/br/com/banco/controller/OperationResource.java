@@ -1,9 +1,6 @@
 package br.com.banco.controller;
 
-import br.com.banco.dto.TransferenceDto;
-import br.com.banco.dto.TransferenceResponse;
-import br.com.banco.dto.WithdrawDto;
-import br.com.banco.dto.WithdrawResponse;
+import br.com.banco.dto.*;
 import br.com.banco.entity.Account;
 import br.com.banco.entity.Transference;
 import br.com.banco.service.impl.AccountService;
@@ -22,6 +19,7 @@ public class OperationResource {
     public static final String OPERATIONS_BASE_PATH = "api/operations/";
     private static final String TRANSFERENCE_PATH = "transference/";
     private static final String WITHDRAW_PATH = "withdraw/";
+    private static final String DEPOSIT_PATH = "deposit/";
 
     private final AccountService accountService;
     private final TransferenceService transferenceService;
@@ -58,5 +56,16 @@ public class OperationResource {
         var transference = transferenceService.withdraw(account, withdrawDto.getValue());
 
         return ResponseEntity.ok(new WithdrawResponse(transference));
+    }
+
+    @Transactional
+    @PostMapping(DEPOSIT_PATH + "{accountId}")
+    public ResponseEntity<DepositResponse> deposit(
+            @PathVariable Integer accountId,
+            @RequestBody @Valid DepositDto depositDto) {
+        Account account = accountService.findById(accountId);
+        var transference = transferenceService.deposit(account, depositDto.getValue());
+
+        return ResponseEntity.ok(new DepositResponse(transference));
     }
 }
