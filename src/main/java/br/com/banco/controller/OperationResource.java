@@ -2,7 +2,6 @@ package br.com.banco.controller;
 
 import br.com.banco.dto.*;
 import br.com.banco.entity.Account;
-import br.com.banco.entity.Transference;
 import br.com.banco.service.impl.AccountService;
 import br.com.banco.service.impl.TransferenceService;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static br.com.banco.controller.OperationResource.*;
+import static br.com.banco.controller.OperationResource.OPERATIONS_BASE_PATH;
 
 @RestController
 @RequestMapping(OPERATIONS_BASE_PATH)
@@ -39,7 +38,7 @@ public class OperationResource {
         accountService.checkEquals(account,destinationAccount);
         Double transferenceValue = transferenceDto.getValue();
 
-        transferenceService.realizeTransfer(account, destinationAccount, transferenceValue);
+        var transference = transferenceService.realizeTransfer(account, destinationAccount, transferenceValue);
 
         return ResponseEntity.ok(new TransferenceResponse(
                 account.getOwnerName(),
