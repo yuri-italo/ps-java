@@ -88,24 +88,6 @@ public class TransferenceService implements ITransferenceService {
         return transferenceRepository.findAll(spec);
     }
 
-    private boolean allFiltersArePresent(StatementFilter statementFilter) {
-        return statementFilter != null
-                && statementFilter.getTransactionOperator() != null
-                && statementFilter.getInitDate() != null
-                && statementFilter.getEndDate() != null;
-    }
-
-    private boolean thereIsNoDate(StatementFilter filter) {
-        return (filter.getInitDate() == null || filter.getEndDate() == null)
-                && filter.getTransactionOperator() != null;
-    }
-
-    private boolean thereIsNoTransactionOperator(StatementFilter filter) {
-        return filter.getInitDate() != null
-                && filter.getEndDate() != null
-                && filter.getTransactionOperator() == null;
-    }
-
     private Transference getDeposit(Account account, Double value) {
         return new Transference(
                 value,
