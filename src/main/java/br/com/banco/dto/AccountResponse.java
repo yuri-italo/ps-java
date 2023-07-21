@@ -4,11 +4,11 @@ import br.com.banco.entity.Account;
 import lombok.Getter;
 
 @Getter
-public class AccountView {
+public class AccountResponse {
     private final Integer id;
     private final String ownerName;
 
-    public AccountView(Account account) {
+    public AccountResponse(Account account) {
         this.id = account.getId();
         this.ownerName = account.getOwnerName();
     }

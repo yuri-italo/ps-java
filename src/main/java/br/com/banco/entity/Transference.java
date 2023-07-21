@@ -45,4 +45,8 @@ public class Transference {
         this.account = account;
         this.transactionOperatorName = transactionOperatorName;
     }
+
+    public String getOwnerName() {
+        return this.getAccount().getOwnerName();
+    }
 }

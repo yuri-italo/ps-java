@@ -11,4 +11,5 @@ public interface ITransferenceService {
     List<Transference> findAll();
     void delete(Integer id);
     Transference realizeTransfer(Account account, Account destinationAccountId, Double value);
+    Transference withdraw(Account account, Double value);
 }

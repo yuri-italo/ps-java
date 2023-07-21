@@ -56,6 +56,21 @@ public class TransferenceService implements ITransferenceService {
         return savedTransference;
     }
 
+    @Override
+    public Transference withdraw(Account account, Double value) {
+        Transference withdraw = getWithdraw(account, value);
+        return this.save(withdraw);
+    }
+
+    private Transference getWithdraw(Account account, Double value) {
+        return new Transference(
+                -value,
+                Type.WITHDRAW,
+                account,
+                null
+        );
+    }
+
     private Transference getOwnerTransference(Account account, Account destinationAccount, Double value) {
         return new Transference(
                 -value,

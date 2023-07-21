@@ -1,7 +1,7 @@
 package br.com.banco.controller;
 
 import br.com.banco.dto.AccountDto;
-import br.com.banco.dto.AccountView;
+import br.com.banco.dto.AccountResponse;
 import br.com.banco.entity.Account;
 import br.com.banco.service.impl.AccountService;
 import org.springframework.beans.BeanUtils;
@@ -29,35 +29,35 @@ public class AccountResource {
 
     @Transactional
     @PostMapping()
-    public ResponseEntity<AccountView> save(@RequestBody @Valid AccountDto accountDto) {
+    public ResponseEntity<AccountResponse> save(@RequestBody @Valid AccountDto accountDto) {
         var savedAccount = accountService.save(accountDto.toEntity());
         return ResponseEntity.created(URI.create(ACCOUNTS_BASE_PATH + "/" + savedAccount.getId()))
-                .body(new AccountView(savedAccount));
+                .body(new AccountResponse(savedAccount));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AccountView> findById(@PathVariable Integer id) {
+    public ResponseEntity<AccountResponse> findById(@PathVariable Integer id) {
         var account = accountService.findById(id);
-        return ResponseEntity.ok(new AccountView(account));
+        return ResponseEntity.ok(new AccountResponse(account));
     }
 
     @GetMapping
-    public ResponseEntity<List<AccountView>> findAll() {
+    public ResponseEntity<List<AccountResponse>> findAll() {
         var allAccounts = accountService.findAll();
         var accountViewList = getAccountViews(allAccounts);
         return ResponseEntity.ok(accountViewList);
     }
 
-    private List<AccountView> getAccountViews(List<Account> allAccounts) {
-        return allAccounts.stream().map(AccountView::new).collect(Collectors.toList());
+    private List<AccountResponse> getAccountViews(List<Account> allAccounts) {
+        return allAccounts.stream().map(AccountResponse::new).collect(Collectors.toList());
     }
 
     @Transactional
     @PutMapping("{id}")
-    public ResponseEntity<AccountView> update(@PathVariable Integer id, @RequestBody @Valid AccountDto accountDto) {
+    public ResponseEntity<AccountResponse> update(@PathVariable Integer id, @RequestBody @Valid AccountDto accountDto) {
         var account = accountService.findById(id);
         var updatedAccount = getUpdatedAccount(accountDto, account);
-        return ResponseEntity.ok(new AccountView(updatedAccount));
+        return ResponseEntity.ok(new AccountResponse(updatedAccount));
     }
 
     private Account getUpdatedAccount(AccountDto source, Account target) {
