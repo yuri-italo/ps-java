@@ -235,14 +235,14 @@ class AccountServiceTest {
         return List.of(buildAccount(), buildSecondAccount());
     }
 
-    private Account buildAccount() {
+    protected static Account buildAccount() {
         var account = new Account(ACCOUNT_NAME);
         account.setId(ACCOUNT_ID);
 
         return account;
     }
 
-    private Account buildSecondAccount() {
+    protected static Account buildSecondAccount() {
         var account = new Account(ACCOUNT_NAME_TWO);
         account.setId(ACCOUNT_ID_TWO);
 

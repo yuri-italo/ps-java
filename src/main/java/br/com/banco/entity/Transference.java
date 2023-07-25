@@ -41,7 +41,7 @@ public class Transference {
         Objects.requireNonNull(value,"Value is mandatory.");
         Objects.requireNonNull(type,"Type is mandatory.");
         Objects.requireNonNull(account,"Account is mandatory.");
-        Objects.requireNonNull(account,"Transaction Operator Name is mandatory.");
+
         this.value = value;
         this.type = type;
         this.account = account;
