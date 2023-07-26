@@ -1,19 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:bank-db
+    url: jdbc:h2:mem:bank-db-test
     driver-class-name: org.h2.Driver
     username: sa
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   flyway:
-    locations: classpath:db/migration
+    enabled: false
   h2:
     console:
       enabled: true
