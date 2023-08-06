@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AccountRepositoryTest {
     private static final String ACCOUNT_OWNER_NAME = "Carlos Santos";
-    private static final String ANOTHER_ACCOUNT_OWNER_NAME = "Carlos Santos";
+    private static final String ANOTHER_ACCOUNT_OWNER_NAME = "Maria Maia";
 
     @Autowired
     private AccountRepository accountRepository;
@@ -80,11 +79,11 @@ class AccountRepositoryTest {
     }
 
 
-    private Account buildAccount() {
+    protected static Account buildAccount() {
         return new Account(ACCOUNT_OWNER_NAME);
     }
 
-    private Account buildAnotherAccount() {
+    protected static Account buildAnotherAccount() {
         return new Account(ANOTHER_ACCOUNT_OWNER_NAME);
     }
 }

@@ -33,7 +33,7 @@ class TransferenceServiceTest {
     private final int TRANSFERENCE_ID = 1;
     private final int ANOTHER_TRANSFERENCE_ID = 2;
     private final String TRANSACTION_OPERATOR_NAME = "Alex de Souza";
-    private final String ANOTHER_TRANSACTION_OPERATOR_NAME = "Chico Maia";
+    private static final String ANOTHER_TRANSACTION_OPERATOR_NAME = "Chico Maia";
     private final Double TRANSFERENCE_VALUE = 100.00;
 
     @Mock
@@ -537,7 +537,7 @@ class TransferenceServiceTest {
         return List.of(transference, transference2);
     }
 
-    private StatementFilter buildFilter() {
+    public static StatementFilter buildFilter() {
         return new StatementFilter(
                 ANOTHER_TRANSACTION_OPERATOR_NAME,
                 LocalDateTime.of(2023, 7, 25, 0, 1, 0),
