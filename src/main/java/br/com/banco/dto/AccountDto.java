@@ -1,17 +1,18 @@
 package br.com.banco.dto;
 
 import br.com.banco.entity.Account;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class AccountDto {
-    private final MessageSource messageSource;
 
     @NotBlank(message = "{empty.owner.name.message.error}")
     @Size(max = 50, message = "{max.name.size.exceeded.message.error}")
