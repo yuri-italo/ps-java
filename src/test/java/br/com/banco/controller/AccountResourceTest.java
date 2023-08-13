@@ -1,16 +1,12 @@
 package br.com.banco.controller;
 
 import br.com.banco.dto.AccountDto;
-import br.com.banco.entity.Account;
 import br.com.banco.entity.Transference;
 import br.com.banco.entity.Type;
 import br.com.banco.repository.AccountRepository;
 import br.com.banco.repository.TransferenceRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,10 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import javax.persistence.EntityManager;
-import java.sql.SQLException;
-import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
