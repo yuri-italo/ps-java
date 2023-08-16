@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @RequiredArgsConstructor
@@ -15,6 +16,6 @@ public class BankStatementResponse {
     public BankStatementResponse(Transference transference) {
         this.type = transference.getType().toString();
         this.value = transference.getValue();
-        this.operationDate = transference.getTransferenceDate();
+        this.operationDate = transference.getTransferenceDate().truncatedTo(ChronoUnit.SECONDS);
     }
 }

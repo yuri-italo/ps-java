@@ -21,6 +21,7 @@ public class RestExceptionHandler {
     private static final String METHOD_ARGUMENT_NOT_VALID_EXCEPTION_TITLE = "Validation Error";
     private static final String METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION_TITLE = "Error converting value";
     private static final String BUSINESS_EXCEPTION_TITLE = "Business error";
+    private static final String SAME_ACCOUNT_ID_EXCEPTION_TITLE = "Same account id";
     private static final String DATA_INTEGRITY_VIOLATION_EXCEPTION_TITLE = "Constraint violation error";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,6 +47,12 @@ public class RestExceptionHandler {
     public ResponseEntity<ExceptionDto> handleBusinessException(BusinessException e) {
         ExceptionDto exceptionDto = getExceptionDto(e, BUSINESS_EXCEPTION_TITLE, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(exceptionDto,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SameAccountIdException.class)
+    public ResponseEntity<ExceptionDto> handleSameAccountIdException(SameAccountIdException e) {
+        ExceptionDto exceptionDto = getExceptionDto(e, SAME_ACCOUNT_ID_EXCEPTION_TITLE, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionDto,HttpStatus.BAD_REQUEST);
     }
 
     private ExceptionDto getExceptionDto(Exception e, String title, HttpStatus status) {

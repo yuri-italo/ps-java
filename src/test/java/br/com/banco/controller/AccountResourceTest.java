@@ -312,10 +312,10 @@ class AccountResourceTest {
         resultActions.andDo(MockMvcResultHandlers.print());
     }
 
-    private AccountDto buildAccountDto() {
+    static AccountDto buildAccountDto() {
         return new AccountDto(ACCOUNT_DTO_NAME);
     }
-    private AccountDto buildSecondAccountDto() {
+    static AccountDto buildSecondAccountDto() {
         return new AccountDto(SECOND_ACCOUNT_DTO_NAME);
     }
 

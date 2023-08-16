@@ -2,6 +2,7 @@ package br.com.banco.service.impl;
 
 import br.com.banco.entity.Account;
 import br.com.banco.exception.BusinessException;
+import br.com.banco.exception.SameAccountIdException;
 import br.com.banco.repository.AccountRepository;
 import br.com.banco.service.IAccountService;
 import org.springframework.context.MessageSource;
@@ -68,7 +69,7 @@ public class AccountService implements IAccountService {
                         null,
                         Locale.getDefault()));
         } catch (IllegalArgumentException e) {
-            throw new BusinessException(e.getMessage(), e);
+            throw new SameAccountIdException(e.getMessage(), e);
         }
 
     }
